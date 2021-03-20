@@ -1,3 +1,4 @@
+import 'package:money2/money2.dart';
 import 'package:scrapper_test/product_model.dart';
 import 'package:web_scraper/web_scraper.dart';
 
