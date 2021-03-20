@@ -28,9 +28,20 @@ class ScrappingPage extends GetView<ScrappingController> {
                         child: ListView.builder(
                           itemCount: prolist.length,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text('${prolist[index].title}'),
-                              subtitle: Text('${prolist[index].url}'),
+                            return Row(
+                              children: [
+                                CircleAvatar(
+                                  child: Image.network(
+                                    '${prolist[index].thumb}',
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListTile(
+                                    title: Text('${prolist[index].title}'),
+                                    subtitle: Text('${prolist[index].url}'),
+                                  ),
+                                ),
+                              ],
                             );
                           },
                         ),

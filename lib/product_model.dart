@@ -3,25 +3,25 @@ import 'dart:convert';
 class ProductModel {
   String title;
   String url;
-  String imgUrl;
+  String thumb;
   String price;
   ProductModel({
     required this.title,
     required this.url,
-    required this.imgUrl,
+    required this.thumb,
     required this.price,
   });
 
   ProductModel copyWith({
     String? title,
     String? url,
-    String? imgUrl,
+    String? thumb,
     String? price,
   }) {
     return ProductModel(
       title: title ?? this.title,
       url: url ?? this.url,
-      imgUrl: imgUrl ?? this.imgUrl,
+      thumb: thumb ?? this.thumb,
       price: price ?? this.price,
     );
   }
@@ -30,7 +30,7 @@ class ProductModel {
     return {
       'title': title,
       'url': url,
-      'imgUrl': imgUrl,
+      'thumb': thumb,
       'price': price,
     };
   }
@@ -39,7 +39,7 @@ class ProductModel {
     return ProductModel(
       title: map['title'],
       url: map['url'],
-      imgUrl: map['imgUrl'],
+      thumb: map['thumb'],
       price: map['price'],
     );
   }
@@ -51,7 +51,7 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(title: $title, url: $url, imgUrl: $imgUrl, price: $price)';
+    return 'ProductModel(title: $title, url: $url, thumb: $thumb, price: $price)';
   }
 
   @override
@@ -61,12 +61,12 @@ class ProductModel {
     return other is ProductModel &&
         other.title == title &&
         other.url == url &&
-        other.imgUrl == imgUrl &&
+        other.thumb == thumb &&
         other.price == price;
   }
 
   @override
   int get hashCode {
-    return title.hashCode ^ url.hashCode ^ imgUrl.hashCode ^ price.hashCode;
+    return title.hashCode ^ url.hashCode ^ thumb.hashCode ^ price.hashCode;
   }
 }

@@ -17,19 +17,19 @@ class Scrapper {
       thumbnails = webScraper
           .getElement('div.product-thumb > div.img-holder > a > img', ['src']);
 
-      prices = webScraper.getElement('div.price > div.price > span[0]', []);
+      prices = webScraper.getElement('div.price > span', []);
 
-      // for (var i = 0; i < nameAndUrls.length; i++) {}
-      // nameAndUrls.forEach((element) {
-      //   element.putIfAbsent('url', () => element['attributes']['href']);
-      // });
-      print("Price : ${prices.length}");
-      print(nameAndUrls.length);
-      print(thumbnails.length);
-
-      throw Exception();
-      for (var item in nameAndUrls) {
-        products.add(ProductModel.fromMap(item));
+      for (var i = 0; i < nameAndUrls.length; i++) {
+        products.add(
+          ProductModel.fromMap(
+            {
+              'title': nameAndUrls[i]['title'],
+              'url': nameAndUrls[i]['attributes']['href'],
+              'thumb': thumbnails[i]['attributes']['src'],
+              'price': prices[i * 2]['title'],
+            },
+          ),
+        );
       }
       print('Scrapping Succesful');
     } else {
