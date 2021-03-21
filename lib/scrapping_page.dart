@@ -38,13 +38,24 @@ class ScrappingPage extends GetView<ScrappingController> {
                                 horizontal: 10,
                               ),
                               child: ElevatedButton(
+                                onPressed: () {
+                                  print(
+                                    '${prolist[index].title}',
+                                  );
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      title: Text('${prolist[index].title}'),
+                                      content: Text('${prolist[index].price}'),
+                                    ),
+                                  );
+                                },
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all(Colors.white),
                                   elevation: MaterialStateProperty.all(1),
                                   splashFactory: InkSplash.splashFactory,
                                 ),
-                                onPressed: () => {},
                                 child: Row(
                                   children: [
                                     CircleAvatar(
