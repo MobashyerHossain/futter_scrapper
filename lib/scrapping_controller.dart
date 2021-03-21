@@ -7,10 +7,12 @@ class ScrappingController extends GetxController {
   final ScrappingRepository _repository = Get.find<ScrappingRepository>();
   static RxInt _page = 1.obs;
 
-  Future<List<ProductModel>> getData() {
-    return _repository.getData(
-      page: _page.value,
-    );
+  Stream<List<ProductModel>> getData() {
+    return _repository
+        .getData(
+          page: _page.value,
+        )
+        .asStream();
   }
 
   int getPageNum() {

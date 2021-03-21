@@ -13,15 +13,18 @@ class ScrappingPage extends GetView<ScrappingController> {
         child: GetBuilder<ScrappingController>(
           init: ScrappingController(),
           builder: (_) {
-            return FutureBuilder<List<ProductModel>>(
-              future: _.getData(),
+            return StreamBuilder<List<ProductModel>>(
+              stream: _.getData(),
               builder: (context, AsyncSnapshot<List<ProductModel>> snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<ProductModel> prolist = snapshot.data ?? [];
+                  List<ProductModel> prolist = snapshot.data ??
+                      [
+                        ProductModel.sampleModel(),
+                      ];
                   return Column(
                     children: [
                       Expanded(
@@ -31,56 +34,68 @@ class ScrappingPage extends GetView<ScrappingController> {
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: EdgeInsets.symmetric(
-                                vertical: 15,
+                                vertical: 10,
                                 horizontal: 10,
                               ),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Colors.white,
-                                    child: Image.network(
-                                      '${prolist[index].thumb}',
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text('${prolist[index].title}'),
-                                      subtitle: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 5,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                  elevation: MaterialStateProperty.all(1),
+                                  splashFactory: InkSplash.splashFactory,
+                                ),
+                                onPressed: () => {},
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 25,
+                                      backgroundColor: Colors.white,
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          '${prolist[index].thumb}',
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          },
                                         ),
-                                        child: Text(
-                                          '${prolist[index].price}',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.red,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ListTile(
+                                        title: Text('${prolist[index].title}'),
+                                        subtitle: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 1,
+                                          ),
+                                          child: Text(
+                                            '${prolist[index].price}',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             );
                           },
