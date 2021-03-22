@@ -9,17 +9,70 @@ import 'package:get/get.dart';
 class ScrappingPage extends GetView<ScrappingController> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Products",
-        ),
-      ),
-      body: Container(
-        child: GetX<ScrappingController>(
-          init: ScrappingController(),
-          builder: (_) {
-            return StreamBuilder<List<BasicProductModel>>(
+    return Container(
+      child: GetX<ScrappingController>(
+        init: ScrappingController(),
+        builder: (_) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                _.getCategory().replaceAll('-', ' ').capitalize.toString(),
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            drawer: Drawer(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount:
+                      Constants.CATEGORY_LIST[_.getWebSite()]!.keys.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5,
+                      ),
+                      child: Row(
+                        children: [
+                          TextButton.icon(
+                            onPressed: () {
+                              var category = Constants
+                                  .CATEGORY_LIST[_.getWebSite()]!.entries
+                                  .elementAt(index)
+                                  .value
+                                  .toString();
+                              _.setCategory(
+                                category,
+                              );
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.computer_rounded),
+                            label: Text(
+                              Constants.CATEGORY_LIST[_.getWebSite()]!.entries
+                                  .elementAt(index)
+                                  .key
+                                  .toString(),
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all(
+                                Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            body: StreamBuilder<List<BasicProductModel>>(
               stream: _.getData(),
               builder:
                   (context, AsyncSnapshot<List<BasicProductModel>> snapshot) {
@@ -40,36 +93,6 @@ class ScrappingPage extends GetView<ScrappingController> {
                       ];
                   return Column(
                     children: [
-                      Container(
-                        height: 50,
-                        color: Colors.grey,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount:
-                              Constants.CATEGORY_LIST['ryans']!.keys.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 5,
-                              ),
-                              child: IconButton(
-                                icon: Icon(Icons.ac_unit),
-                                onPressed: () {
-                                  var category = Constants
-                                      .CATEGORY_LIST['ryans']!.entries
-                                      .elementAt(index)
-                                      .value
-                                      .toString();
-                                  print(category);
-                                  _.setCategory(
-                                    category,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ),
                       Expanded(
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
@@ -185,9 +208,9 @@ class ScrappingPage extends GetView<ScrappingController> {
                   );
                 }
               },
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

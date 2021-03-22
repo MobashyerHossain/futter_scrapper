@@ -6,13 +6,17 @@ import 'package:scrapper_test/scrapping_repository.dart';
 class ScrappingController extends GetxController {
   final ScrappingRepository _repository = Get.find<ScrappingRepository>();
   static RxInt _page = 1.obs;
-  static RxString _category =
-      Constants.CATEGORY_LIST['ryans']!['hdd'].toString().obs;
+  static RxString _site = Constants.WEBSITE_RYANS.obs;
+  static RxString _category = Constants
+      .CATEGORY_LIST[_site.value.toString()]!['graphics-card']
+      .toString()
+      .obs;
 
   Stream<List<BasicProductModel>> getData() {
     return _repository.getData(
       page: _page.value,
       category: _category.value.toString(),
+      site: _site.value.toString(),
     );
   }
 
@@ -20,6 +24,7 @@ class ScrappingController extends GetxController {
     return _repository.checkNextPageAvailibility(
       page: _page.value + 1,
       category: _category.value.toString(),
+      site: _site.value.toString(),
     );
   }
 
@@ -28,7 +33,15 @@ class ScrappingController extends GetxController {
   }
 
   String getCategory() {
-    return _category.value.toString();
+    var map = Constants.CATEGORY_LIST[_site.value.toString()]!;
+    String category = map.keys.firstWhere(
+      (element) => map[element] == _category.value.toString(),
+    );
+    return category;
+  }
+
+  String getWebSite() {
+    return _site.value.toString();
   }
 
   setCategory(String cat) {

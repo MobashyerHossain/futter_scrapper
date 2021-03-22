@@ -1,4 +1,12 @@
 class Constants {
+  static const WEBSITE_LIST = [
+    'stars',
+    'ryans',
+  ];
+
+  static const WEBSITE_STARS = 'stars';
+  static const WEBSITE_RYANS = 'ryans';
+
   static const STARTECH_BASE_URL = 'https://www.startech.com.bd';
   static const STARTECH_PRODUCT_INDEX_URL = '/[1]?limit=20&page=[2]';
   static const STARTECH_CATEGORY_LIST = {
@@ -40,7 +48,7 @@ class Constants {
   };
 
   static const CATEGORY_LIST = {
-    'star': Constants.STARTECH_CATEGORY_LIST,
+    'stars': Constants.STARTECH_CATEGORY_LIST,
     'ryans': Constants.RYANS_CATEGORY_LIST,
   };
 }

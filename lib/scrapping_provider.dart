@@ -68,11 +68,10 @@ class StartechScrapper extends Scrapper {
     var uuid = Uuid();
 
     try {
-      if (await webScraper.loadWebPage(
-        Constants.STARTECH_PRODUCT_INDEX_URL
-            .replaceAll('[1]', '$category')
-            .replaceAll('[2]', '$page'),
-      )) {
+      var url = Constants.STARTECH_PRODUCT_INDEX_URL
+          .replaceAll('[1]', '$category')
+          .replaceAll('[2]', '$page');
+      if (await webScraper.loadWebPage(url)) {
         nameAndUrls = webScraper.getElement(
           'h4.product-name > a',
           ['href'],
@@ -132,11 +131,10 @@ class StartechScrapper extends Scrapper {
   }) async {
     final webScraper = WebScraper(Constants.STARTECH_BASE_URL);
     try {
-      if (await webScraper.loadWebPage(
-        Constants.STARTECH_PRODUCT_INDEX_URL
-            .replaceAll('[1]', '$category')
-            .replaceAll('[2]', '$page'),
-      )) {
+      var url = Constants.STARTECH_PRODUCT_INDEX_URL
+          .replaceAll('[1]', '$category')
+          .replaceAll('[2]', '$page');
+      if (await webScraper.loadWebPage(url)) {
         var prices = webScraper.getElement(
           'div.price > span',
           [],
@@ -173,11 +171,10 @@ class RyansScrapper extends Scrapper {
     var uuid = Uuid();
 
     try {
-      if (await webScraper.loadWebPage(
-        Constants.RYANS_PRODUCT_INDEX_URL
-            .replaceAll('[1]', '$category')
-            .replaceAll('[2]', '$page'),
-      )) {
+      var url = Constants.RYANS_PRODUCT_INDEX_URL
+          .replaceAll('[1]', '$category')
+          .replaceAll('[2]', '$page');
+      if (await webScraper.loadWebPage(url)) {
         nameAndUrls = webScraper.getElement(
           'div.product-content-info > a.product-title-grid',
           ['href'],
@@ -237,11 +234,10 @@ class RyansScrapper extends Scrapper {
   }) async {
     final webScraper = WebScraper(Constants.RYANS_BASE_URL);
     try {
-      if (await webScraper.loadWebPage(
-        Constants.RYANS_PRODUCT_INDEX_URL
-            .replaceAll('[1]', '$category')
-            .replaceAll('[2]', '$page'),
-      )) {
+      var url = Constants.RYANS_PRODUCT_INDEX_URL
+          .replaceAll('[1]', '$category')
+          .replaceAll('[2]', '$page');
+      if (await webScraper.loadWebPage(url)) {
         var prices = webScraper.getElement(
           'div.price-label > div.special-price > span',
           [],
