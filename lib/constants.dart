@@ -1,8 +1,8 @@
 class Constants {
-  static const WEBSITE_LIST = [
-    'stars',
-    'ryans',
-  ];
+  static const WEBSITE_LIST = {
+    'stars': 'Star Tech',
+    'ryans': 'Ryans Computers',
+  };
 
   static const WEBSITE_STARS = 'stars';
   static const WEBSITE_RYANS = 'ryans';

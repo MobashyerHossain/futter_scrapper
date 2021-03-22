@@ -23,53 +23,127 @@ class ScrappingPage extends GetView<ScrappingController> {
               ),
             ),
             drawer: Drawer(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount:
-                      Constants.CATEGORY_LIST[_.getWebSite()]!.keys.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 5,
-                      ),
-                      child: Row(
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: ListView(
                         children: [
                           TextButton.icon(
-                            onPressed: () {
-                              var category = Constants
-                                  .CATEGORY_LIST[_.getWebSite()]!.entries
-                                  .elementAt(index)
-                                  .value
-                                  .toString();
-                              _.setCategory(
-                                category,
-                              );
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.computer_rounded),
-                            label: Text(
-                              Constants.CATEGORY_LIST[_.getWebSite()]!.entries
-                                  .elementAt(index)
-                                  .key
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
+                            icon: Icon(
+                              Icons.star,
                             ),
+                            label: Text(
+                              Constants.WEBSITE_LIST[Constants.WEBSITE_STARS]!,
+                            ),
+                            onPressed: () {
+                              _.setWebSite(
+                                Constants.WEBSITE_STARS,
+                              );
+                            },
                             style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all(
-                                Colors.grey,
+                              backgroundColor: MaterialStateProperty.all(
+                                Colors.grey[200],
                               ),
+                              foregroundColor: MaterialStateProperty.all(
+                                _.getWebSite() == Constants.WEBSITE_STARS
+                                    ? Colors.grey[800]
+                                    : Colors.grey[600],
+                              ),
+                              alignment: Alignment.centerLeft,
+                            ),
+                          ),
+                          TextButton.icon(
+                            icon: Icon(
+                              Icons.star,
+                            ),
+                            label: Text(
+                              Constants.WEBSITE_LIST[Constants.WEBSITE_RYANS]!,
+                            ),
+                            onPressed: () {
+                              _.setWebSite(
+                                Constants.WEBSITE_RYANS,
+                              );
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Colors.grey[200],
+                              ),
+                              foregroundColor: MaterialStateProperty.all(
+                                _.getWebSite() == Constants.WEBSITE_RYANS
+                                    ? Colors.grey[800]
+                                    : Colors.grey[600],
+                              ),
+                              alignment: Alignment.centerLeft,
                             ),
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 10),
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: Constants
+                            .CATEGORY_LIST[_.getWebSite()]!.keys.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 5,
+                            ),
+                            child: TextButton.icon(
+                              onPressed: () {
+                                var category = Constants
+                                    .CATEGORY_LIST[_.getWebSite()]!.entries
+                                    .elementAt(index)
+                                    .value
+                                    .toString();
+                                _.setCategory(
+                                  category,
+                                );
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.computer_rounded),
+                              label: Text(
+                                Constants.CATEGORY_LIST[_.getWebSite()]!.entries
+                                    .elementAt(index)
+                                    .key
+                                    .capitalize
+                                    .toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  Colors.grey[200],
+                                ),
+                                foregroundColor: MaterialStateProperty.all(
+                                  _.getCategory().capitalize ==
+                                          Constants
+                                              .CATEGORY_LIST[_.getWebSite()]!
+                                              .entries
+                                              .elementAt(index)
+                                              .key
+                                              .capitalize
+                                              .toString()
+                                      ? Colors.grey[800]
+                                      : Colors.grey[600],
+                                ),
+                                alignment: Alignment.centerLeft,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             body: StreamBuilder<List<BasicProductModel>>(

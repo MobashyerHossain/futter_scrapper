@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 import 'package:scrapper_test/constants.dart';
 import 'package:scrapper_test/product_model.dart';
+import 'package:scrapper_test/scrapping_page.dart';
 import 'package:scrapper_test/scrapping_repository.dart';
 
 class ScrappingController extends GetxController {
   final ScrappingRepository _repository = Get.find<ScrappingRepository>();
   static RxInt _page = 1.obs;
-  static RxString _site = Constants.WEBSITE_RYANS.obs;
+  static RxString _site = Constants.WEBSITE_RYANS.toString().obs;
   static RxString _category = Constants
       .CATEGORY_LIST[_site.value.toString()]!['graphics-card']
       .toString()
@@ -47,6 +48,11 @@ class ScrappingController extends GetxController {
   setCategory(String cat) {
     _page.value = 1;
     _category.value = cat;
+  }
+
+  setWebSite(String site) {
+    print('go to $site');
+    //
   }
 
   _setPageNum(page) {
