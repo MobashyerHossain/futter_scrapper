@@ -5,8 +5,11 @@ import 'package:scrapper_test/scrapping_repository.dart';
 
 class DependencyInjection {
   static void init() {
-    Get.lazyPut<Scrapper>(
-      () => Scrapper(),
+    Get.lazyPut<RyansScrapper>(
+      () => RyansScrapper(),
+    );
+    Get.lazyPut<StartechScrapper>(
+      () => StartechScrapper(),
     );
     Get.lazyPut<ScrappingRepository>(
       () => ScrappingRepository(),

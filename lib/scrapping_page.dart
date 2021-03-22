@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:scrapper_test/product_model.dart';
@@ -10,20 +11,27 @@ class ScrappingPage extends GetView<ScrappingController> {
     return Scaffold(
       appBar: AppBar(title: Text('ScrappingPage')),
       body: Container(
-        child: GetBuilder<ScrappingController>(
+        child: GetX<ScrappingController>(
           init: ScrappingController(),
           builder: (_) {
-            return StreamBuilder<List<ProductModel>>(
+            return StreamBuilder<List<BasicProductModel>>(
               stream: _.getData(),
-              builder: (context, AsyncSnapshot<List<ProductModel>> snapshot) {
+              builder:
+                  (context, AsyncSnapshot<List<BasicProductModel>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                }
+
                 if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<ProductModel> prolist = snapshot.data ??
+                  List<BasicProductModel> prolist = snapshot.data ??
                       [
-                        ProductModel.sampleModel(),
+                        BasicProductModel.sampleModel(),
                       ];
                   return Column(
                     children: [
@@ -40,7 +48,7 @@ class ScrappingPage extends GetView<ScrappingController> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   print(
-                                    '${prolist[index].title}',
+                                    '${prolist[index].title.toLowerCase().replaceAll(' ', '-')}',
                                   );
                                   showDialog(
                                     context: context,
@@ -62,26 +70,15 @@ class ScrappingPage extends GetView<ScrappingController> {
                                       radius: 25,
                                       backgroundColor: Colors.white,
                                       child: ClipOval(
-                                        child: Image.network(
-                                          '${prolist[index].thumb}',
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent?
-                                                  loadingProgress) {
-                                            if (loadingProgress == null) {
-                                              return child;
-                                            }
+                                        child: CachedNetworkImage(
+                                          useOldImageOnUrlChange: true,
+                                          imageUrl: '${prolist[index].thumb}',
+                                          placeholder: (context, url) =>
+                                              CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) {
                                             return Center(
-                                              child: CircularProgressIndicator(
-                                                value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes!
-                                                    : null,
-                                              ),
+                                              child:
+                                                  CircularProgressIndicator(),
                                             );
                                           },
                                         ),
@@ -112,23 +109,42 @@ class ScrappingPage extends GetView<ScrappingController> {
                           },
                         ),
                       ),
-                      ButtonBar(
-                        alignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: _.getPageNum() == 1
-                                ? null
-                                : () => _.goToPrevPage(),
-                            icon: Icon(Icons.chevron_left),
-                          ),
-                          Text('Page ${_.getPageNum()}'),
-                          IconButton(
-                            onPressed: prolist.length < 10
-                                ? null
-                                : () => _.goToNextPage(),
-                            icon: Icon(Icons.chevron_right),
-                          ),
-                        ],
+                      FutureBuilder(
+                        future: _.checkNextPageAvailibility(),
+                        builder: (context, AsyncSnapshot<bool> snapshot) {
+                          return ButtonBar(
+                            alignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: _.getPageNum() == 1
+                                    ? null
+                                    : () => _.goToPrevPage(),
+                                icon: Icon(Icons.chevron_left),
+                              ),
+                              Text('Page ${_.getPageNum()}'),
+                              IconButton(
+                                onPressed: snapshot.data == true
+                                    ? () => _.goToNextPage()
+                                    : null,
+                                icon: snapshot.connectionState ==
+                                        ConnectionState.waiting
+                                    ? Center(
+                                        child: SizedBox(
+                                          width: 15,
+                                          height: 15,
+                                          child: CircularProgressIndicator
+                                              .adaptive(
+                                            strokeWidth: 2,
+                                          ),
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.chevron_right,
+                                      ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ],
                   );
