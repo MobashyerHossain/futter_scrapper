@@ -103,10 +103,7 @@ class StartechScrapper extends Scrapper {
                 'url': nameAndUrls[i]['attributes']['href'],
                 'thumb': thumbnails[i]['attributes']['src'],
                 'price': int.parse(
-                  prices[i * 2]['title']
-                      .toString()
-                      .replaceAll(' ', '')
-                      .replaceAll(',', ''),
+                  prices[i * 2]['title'].replaceAll(RegExp('[^0-9]'), ''),
                 ),
               },
             ),
@@ -120,7 +117,7 @@ class StartechScrapper extends Scrapper {
     } catch (e) {
       Get.to(
         () => ErrorPage(
-          error: Exception('Check Your Internet Connection!'),
+          error: Exception('Check Your Internet Connection!/n $e'),
         ),
       );
     }
@@ -133,7 +130,7 @@ class StartechScrapper extends Scrapper {
     required page,
     required category,
   }) async {
-    final webScraper = WebScraper(Constants.RYANS_BASE_URL);
+    final webScraper = WebScraper(Constants.STARTECH_BASE_URL);
     try {
       if (await webScraper.loadWebPage(
         Constants.STARTECH_PRODUCT_INDEX_URL
@@ -141,18 +138,22 @@ class StartechScrapper extends Scrapper {
             .replaceAll('[2]', '$page'),
       )) {
         var prices = webScraper.getElement(
-          'div.price-label > div.special-price > span',
+          'div.price > span',
           [],
         );
         if (prices.length > 0) {
+          print('Next Check Succcessful');
           return Future<bool>.value(true);
         } else {
+          print('Next Check Unsucccessful');
           return Future<bool>.value(false);
         }
       } else {
+        print('WebPage Loading Unsucccessful');
         return Future<bool>.value(false);
       }
     } catch (e) {
+      print('Exception : $e');
       return Future<bool>.value(false);
     }
   }
@@ -207,10 +208,7 @@ class RyansScrapper extends Scrapper {
                 'url': nameAndUrls[i]['attributes']['href'],
                 'thumb': thumbnails[i]['attributes']['src'],
                 'price': int.parse(
-                  prices[i]['title']
-                      .toString()
-                      .replaceAll(' ', '')
-                      .replaceAll(',', ''),
+                  prices[i]['title'].replaceAll(RegExp('[^0-9]'), ''),
                 ),
               },
             ),

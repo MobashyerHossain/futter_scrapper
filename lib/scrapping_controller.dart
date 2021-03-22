@@ -4,7 +4,7 @@ import 'package:scrapper_test/scrapping_repository.dart';
 
 class ScrappingController extends GetxController {
   final ScrappingRepository _repository = Get.find<ScrappingRepository>();
-  static RxInt _page = 1.obs;
+  static RxInt _page = 2.obs;
   static RxString _category = 'casing'.obs;
 
   Stream<List<BasicProductModel>> getData() {
