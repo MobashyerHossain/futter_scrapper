@@ -9,7 +9,11 @@ class ScrappingPage extends GetView<ScrappingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('ScrappingPage')),
+      appBar: AppBar(
+        title: Text(
+          controller.getCategory().capitalizeFirst.toString(),
+        ),
+      ),
       body: Container(
         child: GetX<ScrappingController>(
           init: ScrappingController(),

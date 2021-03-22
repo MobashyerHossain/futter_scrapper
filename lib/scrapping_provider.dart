@@ -7,8 +7,8 @@ import 'package:web_scraper/web_scraper.dart';
 
 abstract class Scrapper {
   Future<List<BasicProductModel>> getBasicProductData({
-    required int page,
-    required String productType,
+    required page,
+    required category,
   }) async {
     final webScraper = WebScraper('x.com');
     List<Map<String, dynamic>> nameAndUrls = [];
@@ -46,7 +46,10 @@ abstract class Scrapper {
     ];
   }
 
-  Future<bool> checkNextPageAvailibility({required int page}) {
+  Future<bool> checkNextPageAvailibility({
+    required page,
+    required category,
+  }) {
     return Future.value(false);
   }
 }
@@ -54,8 +57,8 @@ abstract class Scrapper {
 class StartechScrapper extends Scrapper {
   @override
   getBasicProductData({
-    required int page,
-    required String productType,
+    required page,
+    required category,
   }) async {
     final webScraper = WebScraper(Constants.STARTECH_BASE_URL);
     List<Map<String, dynamic>> nameAndUrls = [];
@@ -66,7 +69,9 @@ class StartechScrapper extends Scrapper {
 
     try {
       if (await webScraper.loadWebPage(
-        '/component/casing?page=$page&limit=20',
+        Constants.STARTECH_PRODUCT_INDEX_URL
+            .replaceAll('[1]', '$category')
+            .replaceAll('[2]', '$page'),
       )) {
         nameAndUrls = webScraper.getElement(
           'h4.product-name > a',
@@ -89,7 +94,10 @@ class StartechScrapper extends Scrapper {
               {
                 'id': uuid.v5(
                   Uuid.NAMESPACE_URL,
-                  "${webScraper.baseUrl}/component/casing?page=$page/$i",
+                  Constants.STARTECH_PRODUCT_INDEX_URL +
+                      '/item=$i'
+                          .replaceAll('[1]', '$category')
+                          .replaceAll('[2]', '$page'),
                 ),
                 'title': nameAndUrls[i]['title'],
                 'url': nameAndUrls[i]['attributes']['href'],
@@ -121,26 +129,31 @@ class StartechScrapper extends Scrapper {
   }
 
   @override
-  checkNextPageAvailibility({required int page}) async {
+  checkNextPageAvailibility({
+    required page,
+    required category,
+  }) async {
     final webScraper = WebScraper(Constants.RYANS_BASE_URL);
     try {
       if (await webScraper.loadWebPage(
-        '/category/desktop-component-keyboard?page=$page&limit=20',
+        Constants.STARTECH_PRODUCT_INDEX_URL
+            .replaceAll('[1]', '$category')
+            .replaceAll('[2]', '$page'),
       )) {
         var prices = webScraper.getElement(
           'div.price-label > div.special-price > span',
           [],
         );
         if (prices.length > 0) {
-          return true;
+          return Future<bool>.value(true);
         } else {
-          return false;
+          return Future<bool>.value(false);
         }
       } else {
-        return false;
+        return Future<bool>.value(false);
       }
     } catch (e) {
-      return false;
+      return Future<bool>.value(false);
     }
   }
 }
@@ -148,8 +161,8 @@ class StartechScrapper extends Scrapper {
 class RyansScrapper extends Scrapper {
   @override
   getBasicProductData({
-    required int page,
-    required String productType,
+    required page,
+    required category,
   }) async {
     final webScraper = WebScraper(Constants.RYANS_BASE_URL);
     List<Map<String, dynamic>> nameAndUrls = [];
@@ -157,9 +170,12 @@ class RyansScrapper extends Scrapper {
     List<Map<String, dynamic>> prices = [];
     List<BasicProductModel> products = [];
     var uuid = Uuid();
+
     try {
       if (await webScraper.loadWebPage(
-        '/category/desktop-component-keyboard?limit=20&page=$page',
+        Constants.RYANS_PRODUCT_INDEX_URL
+            .replaceAll('[1]', '$category')
+            .replaceAll('[2]', '$page'),
       )) {
         nameAndUrls = webScraper.getElement(
           'div.product-content-info > a.product-title-grid',
@@ -182,7 +198,10 @@ class RyansScrapper extends Scrapper {
               {
                 'id': uuid.v5(
                   Uuid.NAMESPACE_URL,
-                  "${webScraper.baseUrl}/category/desktop-component-casing?page=$page/item=$i",
+                  Constants.RYANS_PRODUCT_INDEX_URL +
+                      '/item=$i'
+                          .replaceAll('[1]', '$category')
+                          .replaceAll('[2]', '$page'),
                 ),
                 'title': nameAndUrls[i]['title'],
                 'url': nameAndUrls[i]['attributes']['href'],
@@ -214,11 +233,16 @@ class RyansScrapper extends Scrapper {
   }
 
   @override
-  checkNextPageAvailibility({required int page}) async {
+  checkNextPageAvailibility({
+    required page,
+    required category,
+  }) async {
     final webScraper = WebScraper(Constants.RYANS_BASE_URL);
     try {
       if (await webScraper.loadWebPage(
-        '/category/desktop-component-keyboard?page=$page&limit=20',
+        Constants.RYANS_PRODUCT_INDEX_URL
+            .replaceAll('[1]', '$category')
+            .replaceAll('[2]', '$page'),
       )) {
         var prices = webScraper.getElement(
           'div.price-label > div.special-price > span',
