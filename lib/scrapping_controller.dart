@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
+import 'package:scrapper_test/constants.dart';
 import 'package:scrapper_test/product_model.dart';
 import 'package:scrapper_test/scrapping_repository.dart';
 
 class ScrappingController extends GetxController {
   final ScrappingRepository _repository = Get.find<ScrappingRepository>();
-  static RxInt _page = 2.obs;
-  static RxString _category = 'casing'.obs;
+  static RxInt _page = 1.obs;
+  static RxString _category =
+      Constants.CATEGORY_LIST['ryans']!['hdd'].toString().obs;
 
   Stream<List<BasicProductModel>> getData() {
     return _repository.getData(
@@ -29,7 +31,8 @@ class ScrappingController extends GetxController {
     return _category.value.toString();
   }
 
-  changeCategory(String cat) {
+  setCategory(String cat) {
+    _page.value = 1;
     _category.value = cat;
   }
 

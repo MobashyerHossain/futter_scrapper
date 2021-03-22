@@ -3,7 +3,7 @@ import 'package:scrapper_test/product_model.dart';
 import 'package:scrapper_test/scrapping_provider.dart';
 
 class ScrappingRepository {
-  final StartechScrapper _scrapper = Get.find<StartechScrapper>();
+  final RyansScrapper _scrapper = Get.find<RyansScrapper>();
 
   Stream<List<BasicProductModel>> getData({
     required int page,
