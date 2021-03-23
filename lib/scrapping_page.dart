@@ -16,7 +16,7 @@ class ScrappingPage extends GetView<ScrappingController> {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                _.getCategory().replaceAll('-', ' ').capitalize.toString(),
+                _.getCategory().replaceAll('_', ' ').capitalize.toString(),
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -84,60 +84,6 @@ class ScrappingPage extends GetView<ScrappingController> {
                           );
                         },
                       ),
-                      // child: ListView(
-                      //   children: [
-                      //     TextButton.icon(
-                      //       icon: Icon(
-                      //         Icons.star,
-                      //       ),
-                      //       label: Text(
-                      //         Constants.WEBSITE_LIST[Constants.WEBSITE_STARS]!,
-                      //       ),
-                      //       onPressed: () {
-                      //         _.setWebSite(
-                      //           Constants.WEBSITE_STARS,
-                      //         );
-                      //         Navigator.pop(context);
-                      //       },
-                      //       style: ButtonStyle(
-                      //         backgroundColor: MaterialStateProperty.all(
-                      //           Colors.grey[200],
-                      //         ),
-                      //         foregroundColor: MaterialStateProperty.all(
-                      //           _.getWebSite() == Constants.WEBSITE_STARS
-                      //               ? Colors.grey[800]
-                      //               : Colors.grey[600],
-                      //         ),
-                      //         alignment: Alignment.centerLeft,
-                      //       ),
-                      //     ),
-                      //     TextButton.icon(
-                      //       icon: Icon(
-                      //         Icons.star,
-                      //       ),
-                      //       label: Text(
-                      //         Constants.WEBSITE_LIST[Constants.WEBSITE_RYANS]!,
-                      //       ),
-                      //       onPressed: () {
-                      //         _.setWebSite(
-                      //           Constants.WEBSITE_RYANS,
-                      //         );
-                      //         Navigator.pop(context);
-                      //       },
-                      //       style: ButtonStyle(
-                      //         backgroundColor: MaterialStateProperty.all(
-                      //           Colors.grey[200],
-                      //         ),
-                      //         foregroundColor: MaterialStateProperty.all(
-                      //           _.getWebSite() == Constants.WEBSITE_RYANS
-                      //               ? Colors.grey[800]
-                      //               : Colors.grey[600],
-                      //         ),
-                      //         alignment: Alignment.centerLeft,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
                     ),
                   ),
                   Expanded(
