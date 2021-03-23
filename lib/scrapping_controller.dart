@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:scrapper_test/constants.dart';
 import 'package:scrapper_test/product_model.dart';
-import 'package:scrapper_test/scrapping_page.dart';
 import 'package:scrapper_test/scrapping_repository.dart';
 
 class ScrappingController extends GetxController {

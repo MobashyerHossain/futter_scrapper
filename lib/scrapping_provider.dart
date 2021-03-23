@@ -71,6 +71,7 @@ class StartechScrapper extends Scrapper {
       var url = Constants.STARTECH_PRODUCT_INDEX_URL
           .replaceAll('[1]', '$category')
           .replaceAll('[2]', '$page');
+
       if (await webScraper.loadWebPage(url)) {
         nameAndUrls = webScraper.getElement(
           'h4.product-name > a',
@@ -134,11 +135,13 @@ class StartechScrapper extends Scrapper {
       var url = Constants.STARTECH_PRODUCT_INDEX_URL
           .replaceAll('[1]', '$category')
           .replaceAll('[2]', '$page');
+
       if (await webScraper.loadWebPage(url)) {
         var prices = webScraper.getElement(
           'div.price > span',
           [],
         );
+
         if (prices.length > 0) {
           print('Next Check Succcessful');
           return Future<bool>.value(true);
@@ -174,6 +177,7 @@ class RyansScrapper extends Scrapper {
       var url = Constants.RYANS_PRODUCT_INDEX_URL
           .replaceAll('[1]', '$category')
           .replaceAll('[2]', '$page');
+
       if (await webScraper.loadWebPage(url)) {
         nameAndUrls = webScraper.getElement(
           'div.product-content-info > a.product-title-grid',
@@ -237,11 +241,13 @@ class RyansScrapper extends Scrapper {
       var url = Constants.RYANS_PRODUCT_INDEX_URL
           .replaceAll('[1]', '$category')
           .replaceAll('[2]', '$page');
+
       if (await webScraper.loadWebPage(url)) {
         var prices = webScraper.getElement(
           'div.price-label > div.special-price > span',
           [],
         );
+
         if (prices.length > 0) {
           return Future<bool>.value(true);
         } else {
