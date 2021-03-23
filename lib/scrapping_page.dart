@@ -21,6 +21,21 @@ class ScrappingPage extends GetView<ScrappingController> {
                   fontSize: 16,
                 ),
               ),
+              actions: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Text(
+                      Constants.WEBSITE_LIST[_.getWebSite().toString()]!,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             drawer: Drawer(
               child: Column(
@@ -28,58 +43,101 @@ class ScrappingPage extends GetView<ScrappingController> {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      child: ListView(
-                        children: [
-                          TextButton.icon(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: Constants.CATEGORY_LIST.keys.length,
+                        itemBuilder: (context, index) {
+                          return TextButton.icon(
                             icon: Icon(
                               Icons.star,
                             ),
                             label: Text(
-                              Constants.WEBSITE_LIST[Constants.WEBSITE_STARS]!,
+                              Constants.WEBSITE_LIST.entries
+                                  .elementAt(index)
+                                  .value
+                                  .toString(),
                             ),
                             onPressed: () {
-                              _.setWebSite(
-                                Constants.WEBSITE_STARS,
-                              );
+                              var site = Constants.WEBSITE_LIST.entries
+                                  .elementAt(index)
+                                  .key
+                                  .toString();
+
+                              _.setWebSite(site);
+                              Navigator.pop(context);
                             },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
                                 Colors.grey[200],
                               ),
                               foregroundColor: MaterialStateProperty.all(
-                                _.getWebSite() == Constants.WEBSITE_STARS
+                                _.getWebSite() ==
+                                        Constants.WEBSITE_LIST.entries
+                                            .elementAt(index)
+                                            .key
+                                            .toString()
                                     ? Colors.grey[800]
                                     : Colors.grey[600],
                               ),
                               alignment: Alignment.centerLeft,
                             ),
-                          ),
-                          TextButton.icon(
-                            icon: Icon(
-                              Icons.star,
-                            ),
-                            label: Text(
-                              Constants.WEBSITE_LIST[Constants.WEBSITE_RYANS]!,
-                            ),
-                            onPressed: () {
-                              _.setWebSite(
-                                Constants.WEBSITE_RYANS,
-                              );
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                Colors.grey[200],
-                              ),
-                              foregroundColor: MaterialStateProperty.all(
-                                _.getWebSite() == Constants.WEBSITE_RYANS
-                                    ? Colors.grey[800]
-                                    : Colors.grey[600],
-                              ),
-                              alignment: Alignment.centerLeft,
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
+                      // child: ListView(
+                      //   children: [
+                      //     TextButton.icon(
+                      //       icon: Icon(
+                      //         Icons.star,
+                      //       ),
+                      //       label: Text(
+                      //         Constants.WEBSITE_LIST[Constants.WEBSITE_STARS]!,
+                      //       ),
+                      //       onPressed: () {
+                      //         _.setWebSite(
+                      //           Constants.WEBSITE_STARS,
+                      //         );
+                      //         Navigator.pop(context);
+                      //       },
+                      //       style: ButtonStyle(
+                      //         backgroundColor: MaterialStateProperty.all(
+                      //           Colors.grey[200],
+                      //         ),
+                      //         foregroundColor: MaterialStateProperty.all(
+                      //           _.getWebSite() == Constants.WEBSITE_STARS
+                      //               ? Colors.grey[800]
+                      //               : Colors.grey[600],
+                      //         ),
+                      //         alignment: Alignment.centerLeft,
+                      //       ),
+                      //     ),
+                      //     TextButton.icon(
+                      //       icon: Icon(
+                      //         Icons.star,
+                      //       ),
+                      //       label: Text(
+                      //         Constants.WEBSITE_LIST[Constants.WEBSITE_RYANS]!,
+                      //       ),
+                      //       onPressed: () {
+                      //         _.setWebSite(
+                      //           Constants.WEBSITE_RYANS,
+                      //         );
+                      //         Navigator.pop(context);
+                      //       },
+                      //       style: ButtonStyle(
+                      //         backgroundColor: MaterialStateProperty.all(
+                      //           Colors.grey[200],
+                      //         ),
+                      //         foregroundColor: MaterialStateProperty.all(
+                      //           _.getWebSite() == Constants.WEBSITE_RYANS
+                      //               ? Colors.grey[800]
+                      //               : Colors.grey[600],
+                      //         ),
+                      //         alignment: Alignment.centerLeft,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ),
                   ),
                   Expanded(
@@ -241,7 +299,7 @@ class ScrappingPage extends GetView<ScrappingController> {
                           },
                         ),
                       ),
-                      FutureBuilder(
+                      FutureBuilder<bool>(
                         future: _.checkNextPageAvailibility(),
                         builder: (context, AsyncSnapshot<bool> snapshot) {
                           return ButtonBar(

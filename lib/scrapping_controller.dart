@@ -12,6 +12,15 @@ class ScrappingController extends GetxController {
       .toString()
       .obs;
 
+  @override
+  onInit() {
+    super.onInit();
+    _category = Constants
+        .CATEGORY_LIST[_site.value.toString()]!['graphics-card']
+        .toString()
+        .obs;
+  }
+
   Stream<List<BasicProductModel>> getData() {
     return _repository.getData(
       page: _page.value,
@@ -51,7 +60,11 @@ class ScrappingController extends GetxController {
 
   setWebSite(String site) {
     print('go to $site');
-    //
+    _site.value = site;
+    _category = Constants
+        .CATEGORY_LIST[_site.value.toString()]!['graphics-card']
+        .toString()
+        .obs;
   }
 
   _setPageNum(page) {
