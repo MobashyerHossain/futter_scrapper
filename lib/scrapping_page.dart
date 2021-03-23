@@ -15,22 +15,40 @@ class ScrappingPage extends GetView<ScrappingController> {
         builder: (_) {
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.grey[700],
               title: Text(
                 _.getCategoryHR(),
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
+              centerTitle: true,
               actions: [
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                     ),
-                    child: Text(
-                      Constants.WEBSITE_LIST[_.getWebSite().toString()]!,
-                      style: TextStyle(
-                        fontSize: 16,
+                    child: SizedBox(
+                      height: 30,
+                      child: Image.asset(
+                        'assets/images/thumbnails/${_.getCategory().toString()}.png',
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: SizedBox(
+                      height: 30,
+                      child: Image.asset(
+                        'assets/images/site_logo/${_.getWebSite().toString()}.png',
                       ),
                     ),
                   ),
