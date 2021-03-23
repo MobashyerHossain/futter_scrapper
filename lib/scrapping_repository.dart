@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 import 'package:scrapper_test/constants.dart';
 import 'package:scrapper_test/product_model.dart';
-import 'package:scrapper_test/scrapping_provider.dart';
+import 'package:scrapper_test/providers/ryans_scrapper_provider.dart';
+import 'package:scrapper_test/providers/stars_scrapper_provider.dart';
 
 class ScrappingRepository {
   final RyansScrapper _ryanScrapper = Get.find<RyansScrapper>();

@@ -8,18 +8,9 @@ class ScrappingController extends GetxController {
   static RxInt _page = 1.obs;
   static RxString _site = Constants.WEBSITE_RYANS.toString().obs;
   static RxString _category = Constants
-      .CATEGORY_LIST[_site.value.toString()]!['graphics-card']
+      .CATEGORY_LIST[_site.value.toString()]!.entries.first.key
       .toString()
       .obs;
-
-  @override
-  onInit() {
-    super.onInit();
-    _category = Constants
-        .CATEGORY_LIST[_site.value.toString()]!['graphics-card']
-        .toString()
-        .obs;
-  }
 
   Stream<List<BasicProductModel>> getData() {
     return _repository.getData(
@@ -42,11 +33,14 @@ class ScrappingController extends GetxController {
   }
 
   String getCategory() {
-    var map = Constants.CATEGORY_LIST[_site.value.toString()]!;
-    String category = map.keys.firstWhere(
-      (element) => map[element] == _category.value.toString(),
-    );
-    return category;
+    return _category.toString();
+  }
+
+  String getCategoryHR([String? cat]) {
+    if (cat != null) {
+      return cat.toString().replaceAll('_', ' ').capitalize.toString();
+    }
+    return _category.toString().replaceAll('_', ' ').capitalize.toString();
   }
 
   String getWebSite() {
@@ -61,10 +55,6 @@ class ScrappingController extends GetxController {
   setWebSite(String site) {
     print('go to $site');
     _site.value = site;
-    _category = Constants
-        .CATEGORY_LIST[_site.value.toString()]!['graphics-card']
-        .toString()
-        .obs;
   }
 
   _setPageNum(page) {

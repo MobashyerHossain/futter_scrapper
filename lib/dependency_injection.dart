@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
+import 'package:scrapper_test/providers/ryans_scrapper_provider.dart';
+import 'package:scrapper_test/providers/stars_scrapper_provider.dart';
 import 'package:scrapper_test/scrapping_controller.dart';
-import 'package:scrapper_test/scrapping_provider.dart';
 import 'package:scrapper_test/scrapping_repository.dart';
 
 class DependencyInjection {

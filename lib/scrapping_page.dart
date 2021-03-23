@@ -16,7 +16,7 @@ class ScrappingPage extends GetView<ScrappingController> {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                _.getCategory().replaceAll('_', ' ').capitalize.toString(),
+                _.getCategoryHR(),
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -47,39 +47,47 @@ class ScrappingPage extends GetView<ScrappingController> {
                         scrollDirection: Axis.vertical,
                         itemCount: Constants.CATEGORY_LIST.keys.length,
                         itemBuilder: (context, index) {
-                          return TextButton.icon(
-                            icon: Icon(
-                              Icons.star,
+                          var site =
+                              Constants.WEBSITE_LIST.entries.elementAt(index);
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
                             ),
-                            label: Text(
-                              Constants.WEBSITE_LIST.entries
-                                  .elementAt(index)
-                                  .value
-                                  .toString(),
-                            ),
-                            onPressed: () {
-                              var site = Constants.WEBSITE_LIST.entries
-                                  .elementAt(index)
-                                  .key
-                                  .toString();
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                  child: Image.asset(
+                                    'assets/images/site_logo/${site.key.toString()}.png',
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TextButton(
+                                    child: Text(
+                                      site.value.toString(),
+                                    ),
+                                    onPressed: () {
+                                      var sitekey = site.key.toString();
 
-                              _.setWebSite(site);
-                              Navigator.pop(context);
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                Colors.grey[200],
-                              ),
-                              foregroundColor: MaterialStateProperty.all(
-                                _.getWebSite() ==
-                                        Constants.WEBSITE_LIST.entries
-                                            .elementAt(index)
-                                            .key
-                                            .toString()
-                                    ? Colors.grey[800]
-                                    : Colors.grey[600],
-                              ),
-                              alignment: Alignment.centerLeft,
+                                      _.setWebSite(sitekey);
+                                      Navigator.pop(context);
+                                    },
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                        _.getWebSite() ==
+                                                Constants.WEBSITE_LIST.entries
+                                                    .elementAt(index)
+                                                    .key
+                                                    .toString()
+                                            ? Colors.grey[800]
+                                            : Colors.grey[600],
+                                      ),
+                                      alignment: Alignment.centerLeft,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         },
@@ -96,51 +104,68 @@ class ScrappingPage extends GetView<ScrappingController> {
                         itemCount: Constants
                             .CATEGORY_LIST[_.getWebSite()]!.keys.length,
                         itemBuilder: (context, index) {
-                          return Padding(
+                          var category = Constants
+                              .CATEGORY_LIST[_.getWebSite()]!.entries
+                              .elementAt(index)
+                              .key
+                              .toString();
+                          return Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey[300] as Color,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
                             padding: EdgeInsets.symmetric(
                               horizontal: 5,
                             ),
-                            child: TextButton.icon(
-                              onPressed: () {
-                                var category = Constants
-                                    .CATEGORY_LIST[_.getWebSite()]!.entries
-                                    .elementAt(index)
-                                    .value
-                                    .toString();
-                                _.setCategory(
-                                  category,
-                                );
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(Icons.computer_rounded),
-                              label: Text(
-                                Constants.CATEGORY_LIST[_.getWebSite()]!.entries
-                                    .elementAt(index)
-                                    .key
-                                    .capitalize
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 16,
+                                  backgroundColor: Colors.transparent,
+                                  backgroundImage: Image.asset(
+                                    'assets/images/thumbnails/${category.toString()}.png',
+                                  ).image,
                                 ),
-                              ),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                  Colors.grey[200],
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: () {
+                                      _.setCategory(
+                                        category,
+                                      );
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      _.getCategoryHR(
+                                        category.capitalize.toString(),
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                        _.getCategory().capitalize ==
+                                                Constants
+                                                    .CATEGORY_LIST[
+                                                        _.getWebSite()]!
+                                                    .entries
+                                                    .elementAt(index)
+                                                    .key
+                                                    .capitalize
+                                                    .toString()
+                                            ? Colors.grey[800]
+                                            : Colors.grey[600],
+                                      ),
+                                      alignment: Alignment.centerLeft,
+                                    ),
+                                  ),
                                 ),
-                                foregroundColor: MaterialStateProperty.all(
-                                  _.getCategory().capitalize ==
-                                          Constants
-                                              .CATEGORY_LIST[_.getWebSite()]!
-                                              .entries
-                                              .elementAt(index)
-                                              .key
-                                              .capitalize
-                                              .toString()
-                                      ? Colors.grey[800]
-                                      : Colors.grey[600],
-                                ),
-                                alignment: Alignment.centerLeft,
-                              ),
+                              ],
                             ),
                           );
                         },
