@@ -3,12 +3,14 @@ class Constants {
   static const WEBSITE_LIST = {
     'startech': 'Star Tech',
     'ryans': 'Ryans Computers',
+    'techland': 'TechLand'
   };
 
   // Category List
   static const CATEGORY_LIST = {
     'startech': Constants.STARTECH_CATEGORY_LIST,
     'ryans': Constants.RYANS_CATEGORY_LIST,
+    'techland': Constants.TECHLAND_CATEGORY_LIST,
   };
 
   // Startech
