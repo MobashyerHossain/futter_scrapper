@@ -2,15 +2,15 @@ import 'package:get/get.dart';
 import 'package:scrapper_test/constants.dart';
 import 'package:scrapper_test/error_page.dart';
 import 'package:scrapper_test/product_model.dart';
-import 'package:scrapper_test/providers/scrapping_provider.dart';
+import 'package:scrapper_test/providers/scrapping_provider_mixin.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_scraper/web_scraper.dart';
 
-class StartechScrapper with Scrapper {
-  StartechScrapper() {
-    siteUrl = Constants.STARTECH_BASE_URL;
-    categoryUrls = Constants.STARTECH_CATEGORY_LIST;
-    localUrl = Constants.STARTECH_PRODUCT_INDEX_URL;
+class TechlandScrapper with Scrapper {
+  TechlandScrapper() {
+    siteUrl = Constants.TECHLAND_BASE_URL;
+    categoryUrls = Constants.TECHLAND_CATEGORY_LIST;
+    localUrl = Constants.TECHLAND_PRODUCT_INDEX_URL;
   }
 
   @override
@@ -21,7 +21,7 @@ class StartechScrapper with Scrapper {
     final urlList = [];
     final thumbnailList = [];
     final priceList = [];
-    List<BasicProductModel> productList = [];
+    List<BasicProductInfoModel> productList = [];
 
     var uuid = Uuid();
 
@@ -33,7 +33,7 @@ class StartechScrapper with Scrapper {
       if (await webScraper.loadWebPage(url)) {
         // Scrapping Title, Url
         webScraper.getElement(
-          'h4.product-name > a',
+          'div.product-layout > div.product-thumb > div.caption > div.name > a',
           ['href'],
         ).forEach((element) {
           final name = element['title'];
@@ -44,7 +44,7 @@ class StartechScrapper with Scrapper {
 
         // Scrapping Thumbnail
         webScraper.getElement(
-          'div.product-thumb > div.img-holder > a > img',
+          'div.product-layout > div.product-thumb > div.image > a > div > img',
           ['src'],
         ).forEach((element) {
           final thumbnail = element['attributes']['src'];
@@ -52,25 +52,20 @@ class StartechScrapper with Scrapper {
         });
 
         // Scrapping Price
-        webScraper
-            .getElement(
-              'div.price > span',
-              [],
-            )
-            .asMap()
-            .forEach((index, element) {
-              if (index % 2 == 0) {
-                final price = int.parse(
-                  element['title'].replaceAll(RegExp('[^0-9]'), ''),
-                );
-                priceList.add(price);
-              }
-            });
+        webScraper.getElement(
+          'div.product-layout > div.product-thumb > div.caption > div.price > span.price-tax',
+          [],
+        ).forEach((element) {
+          final price = int.parse(
+            element['title'].replaceAll(RegExp('[^0-9]'), ''),
+          );
+          priceList.add(price);
+        });
 
         // Populating ProductInfo List
         for (var i = 0; i < nameList.length; i++) {
           productList.add(
-            BasicProductModel.fromMap(
+            BasicProductInfoModel.fromMap(
               {
                 'id': uuid.v5(
                   Uuid.NAMESPACE_URL,
@@ -117,7 +112,7 @@ class StartechScrapper with Scrapper {
 
       if (await webScraper.loadWebPage(url)) {
         var prices = webScraper.getElement(
-          'div.price > span',
+          'div.product-layout > div.product-thumb > div.caption > div.price > span.price-tax',
           [],
         );
 

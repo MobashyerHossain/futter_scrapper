@@ -204,10 +204,10 @@ class ScrappingPage extends GetView<ScrappingController> {
                 ],
               ),
             ),
-            body: StreamBuilder<List<BasicProductModel>>(
+            body: StreamBuilder<List<BasicProductInfoModel>>(
               stream: _.getData(),
-              builder:
-                  (context, AsyncSnapshot<List<BasicProductModel>> snapshot) {
+              builder: (context,
+                  AsyncSnapshot<List<BasicProductInfoModel>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator.adaptive(),
@@ -219,9 +219,9 @@ class ScrappingPage extends GetView<ScrappingController> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<BasicProductModel> prolist = snapshot.data ??
+                  List<BasicProductInfoModel> prolist = snapshot.data ??
                       [
-                        BasicProductModel.sampleModel(),
+                        BasicProductInfoModel.sampleModel(),
                       ];
                   return Column(
                     children: [

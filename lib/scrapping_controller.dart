@@ -12,7 +12,7 @@ class ScrappingController extends GetxController {
       .toString()
       .obs;
 
-  Stream<List<BasicProductModel>> getData() {
+  Stream<List<BasicProductInfoModel>> getData() {
     return _repository.getData(
       page: _page.value,
       category: _category.value.toString(),

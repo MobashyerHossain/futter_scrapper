@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:scrapper_test/constants.dart';
 import 'package:scrapper_test/error_page.dart';
 import 'package:scrapper_test/product_model.dart';
-import 'package:scrapper_test/providers/scrapping_provider.dart';
+import 'package:scrapper_test/providers/scrapping_provider_mixin.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_scraper/web_scraper.dart';
 
@@ -21,7 +21,7 @@ class RyansScrapper with Scrapper {
     final urlList = [];
     final thumbnailList = [];
     final priceList = [];
-    List<BasicProductModel> productList = [];
+    List<BasicProductInfoModel> productList = [];
 
     var uuid = Uuid();
 
@@ -65,7 +65,7 @@ class RyansScrapper with Scrapper {
         // Populating ProductInfo List
         for (var i = 0; i < nameList.length; i++) {
           productList.add(
-            BasicProductModel.fromMap(
+            BasicProductInfoModel.fromMap(
               {
                 'id': uuid.v5(
                   Uuid.NAMESPACE_URL,
