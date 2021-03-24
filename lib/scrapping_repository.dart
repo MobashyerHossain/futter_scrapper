@@ -18,17 +18,17 @@ class ScrappingRepository {
         {
           print(site);
           return _ryanScrapper
-              .getBasicProductData(
+              .getAllProductInfo(
                 page: page,
                 category: category,
               )
               .asStream();
         }
-      case Constants.WEBSITE_STARS:
+      case Constants.WEBSITE_STARTECH:
         {
           print(site);
           return _starScrapper
-              .getBasicProductData(
+              .getAllProductInfo(
                 page: page,
                 category: category,
               )
@@ -38,7 +38,7 @@ class ScrappingRepository {
         {
           print(site);
           return _starScrapper
-              .getBasicProductData(
+              .getAllProductInfo(
                 page: page,
                 category: category,
               )
@@ -56,21 +56,21 @@ class ScrappingRepository {
     switch (site) {
       case Constants.WEBSITE_RYANS:
         {
-          return _ryanScrapper.checkNextPageAvailibility(
+          return _ryanScrapper.checkNextPage(
             page: page,
             category: category,
           );
         }
-      case Constants.WEBSITE_STARS:
+      case Constants.WEBSITE_STARTECH:
         {
-          return _starScrapper.checkNextPageAvailibility(
+          return _starScrapper.checkNextPage(
             page: page,
             category: category,
           );
         }
       default:
         {
-          return _starScrapper.checkNextPageAvailibility(
+          return _starScrapper.checkNextPage(
             page: page,
             category: category,
           );

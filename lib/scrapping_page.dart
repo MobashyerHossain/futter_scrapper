@@ -32,7 +32,14 @@ class ScrappingPage extends GetView<ScrappingController> {
                     child: SizedBox(
                       height: 30,
                       child: Image.asset(
-                        'assets/images/thumbnails/${_.getCategory().toString()}.png',
+                        _.getCategoryThumb(),
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          print(stackTrace.toString());
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -48,7 +55,7 @@ class ScrappingPage extends GetView<ScrappingController> {
                     child: SizedBox(
                       height: 30,
                       child: Image.asset(
-                        'assets/images/site_logo/${_.getWebSite().toString()}.png',
+                        _.getSiteLogo(),
                       ),
                     ),
                   ),
@@ -76,7 +83,9 @@ class ScrappingPage extends GetView<ScrappingController> {
                                 SizedBox(
                                   height: 20,
                                   child: Image.asset(
-                                    'assets/images/site_logo/${site.key.toString()}.png',
+                                    _.getSiteLogo(
+                                      site.key.toString(),
+                                    ),
                                   ),
                                 ),
                                 Expanded(
@@ -145,7 +154,9 @@ class ScrappingPage extends GetView<ScrappingController> {
                                   radius: 16,
                                   backgroundColor: Colors.transparent,
                                   backgroundImage: Image.asset(
-                                    'assets/images/thumbnails/${category.toString()}.png',
+                                    _.getCategoryThumb(
+                                      category.toString(),
+                                    ),
                                   ).image,
                                 ),
                                 Expanded(

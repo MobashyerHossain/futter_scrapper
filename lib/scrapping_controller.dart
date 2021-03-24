@@ -59,12 +59,11 @@ class ScrappingController extends GetxController {
 
   _setPageNum(page) {
     _page.value = page;
-    print('Page Changed to ${_page.value}');
   }
 
   goToNextPage() {
     _setPageNum(_page.value + 1);
-    print('To Page ${_page.value}');
+    print('To Page ${_page.value} of $_category of $_site');
   }
 
   goToPrevPage() {
@@ -72,5 +71,19 @@ class ScrappingController extends GetxController {
       _setPageNum(_page.value - 1);
       print('To Page ${_page.value}');
     }
+  }
+
+  String getCategoryThumb([String? x]) {
+    if (x == null) {
+      return 'assets/images/thumbnails/${_category.toString()}.png';
+    }
+    return 'assets/images/thumbnails/${x.toString()}.png';
+  }
+
+  String getSiteLogo([String? x]) {
+    if (x == null) {
+      return 'assets/images/site_logo/${_site.toString()}.png';
+    }
+    return 'assets/images/site_logo/${x.toString()}.png';
   }
 }
